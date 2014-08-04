@@ -4,7 +4,7 @@
         xmlns:h="http://helixtoolkit.codeplex.com"
         xmlns:dicomDice="clr-namespace:DicomDice"
         Title="DICOM Dice" Height="480" Width="480" WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize" WindowStyle="ToolWindow" Background="#202020">
+        ResizeMode="CanMinimize" Background="#202020" Icon="dice.ico">
   <Window.Resources>
     <ModelVisual3D x:Key="Labels">
       <ModelVisual3D.Transform>
