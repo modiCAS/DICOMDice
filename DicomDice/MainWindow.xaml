@@ -6,75 +6,80 @@
         Title="DICOM Dice" Height="480" Width="480" WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize" Background="#202020" Icon="dice.ico">
   <Window.Resources>
-    <ModelVisual3D x:Key="Labels">
-      <ModelVisual3D.Transform>
-        <RotateTransform3D>
-          <RotateTransform3D.Rotation>
-            <AxisAngleRotation3D Axis="0,0,1" Angle="180" />
-          </RotateTransform3D.Rotation>
-        </RotateTransform3D>
-      </ModelVisual3D.Transform>
-      <h:TextVisual3D Foreground="DarkGreen" Height="6" Padding="2" FontFamily="Times New Roman"
-                      FontWeight="Normal" IsDoubleSided="False" Position="0,-5.001,0"
-                      UpDirection="0,0,1" TextDirection="1,0,0" HorizontalAlignment="Center"
-                      VerticalAlignment="Center" Text="P" />
-      <h:TextVisual3D Foreground="DarkGreen" Height="2" Padding="2" FontFamily="Times New Roman"
-                      FontWeight="Normal" IsDoubleSided="False" Position="2,-5.002,2"
-                      UpDirection="0,0,1" TextDirection="1,0,0" HorizontalAlignment="Center"
-                      VerticalAlignment="Center" Text="+Y" />
-      <h:TextVisual3D Foreground="DarkGreen" Height="1" Padding="2" FontFamily="Times New Roman"
-                      FontWeight="Normal" IsDoubleSided="False" Position="0,-5.002,-3"
-                      UpDirection="0,0,1" TextDirection="1,0,0" HorizontalAlignment="Center"
-                      VerticalAlignment="Center" Text="FORWARD" />
-    </ModelVisual3D>
+    <RoutedUICommand x:Key="ResetCamera" Text="Reset Camera" />
+    <RoutedUICommand x:Key="ResetCube" Text="Reset Cube" />
   </Window.Resources>
-  <h:HelixViewport3D Background="#282828" IsHeadLightEnabled="False"
-                     CoordinateSystemWidth="80" CoordinateSystemHeight="80" ShowCoordinateSystem="True"
-                     CoordinateSystemLabelForeground="WhiteSmoke"
-                     CameraRotationMode="Turntable" RotateGesture="RightClick"
-                     IsPanEnabled="False" IsChangeFieldOfViewEnabled="False"
-                     IsInertiaEnabled="False" IsManipulationEnabled="True"
-                     IsMoveEnabled="False" IsRotationEnabled="True"
-                     IsZoomEnabled="False" TextBrush="#202020"
-                     Title="  DICOM Dice " TitleBackground="#10FFFFFF" TitleSize="14"
-                     SubTitle=" modiCAS GmbH " CameraInertiaFactor="0.1"
-                     ShowCameraInfo="False" CameraMode="Inspect"
-                     ViewCubeTopText="S" ViewCubeBottomText="I"
-                     ViewCubeLeftText="A" ViewCubeRightText="P"
-                     ViewCubeFrontText="L" ViewCubeBackText="R">
-    <h:HelixViewport3D.Camera>
-      <PerspectiveCamera Position="-20,-22,10" UpDirection="0,0,1" LookDirection="20,22,-10" FarPlaneDistance="50" />
-    </h:HelixViewport3D.Camera>
-    <h:ThreePointLights Target="0,0,0" UpDirection="0,0,1" Distance="20" FrontDirection="0,1,0" />
-    <h:ThreePointLights Target="0,0,0" UpDirection="0,0,-1" Distance="30" FrontDirection="0,1,0" />
-    <dicomDice:DiceVisual3D x:Name="Dice" SideLength="10" Chamfer="0.1" Fill="White">
-      <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="0" Foreground="DarkGreen" MajorLabel="A"
+  <Window.CommandBindings>
+    <CommandBinding Command="{StaticResource ResetCamera}" Executed="ResetCamera" />
+    <CommandBinding Command="{StaticResource ResetCube}" Executed="ResetCube" />
+  </Window.CommandBindings>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <h:HelixViewport3D x:Name="Viewport" Background="#282828" IsHeadLightEnabled="False"
+                       Grid.ColumnSpan="2" Grid.RowSpan="2"
+                       CoordinateSystemWidth="80" CoordinateSystemHeight="80" ShowCoordinateSystem="True"
+                       CoordinateSystemLabelForeground="WhiteSmoke"
+                       CameraRotationMode="Turntable" RotateGesture="RightClick"
+                       IsPanEnabled="False" IsChangeFieldOfViewEnabled="False"
+                       IsInertiaEnabled="False" IsManipulationEnabled="True"
+                       IsMoveEnabled="False" IsRotationEnabled="True"
+                       IsZoomEnabled="False" TextBrush="#202020"
+                       Title="  DICOM Dice  " TitleBackground="#10FFFFFF" TitleSize="14"
+                       SubTitle=" modiCAS GmbH " CameraInertiaFactor="0.1"
+                       ShowCameraInfo="False" CameraMode="Inspect"
+                       ViewCubeTopText="S" ViewCubeBottomText="I"
+                       ViewCubeLeftText="A" ViewCubeRightText="P"
+                       ViewCubeFrontText="L" ViewCubeBackText="R">
+      <h:HelixViewport3D.Camera>
+        <PerspectiveCamera Position="-20,-22,10" UpDirection="0,0,1" LookDirection="20,22,-10" FarPlaneDistance="50" />
+      </h:HelixViewport3D.Camera>
+      <h:ThreePointLights Target="0,0,0" UpDirection="0,0,1" Distance="20" FrontDirection="0,1,0" />
+      <h:ThreePointLights Target="0,0,0" UpDirection="0,0,-1" Distance="30" FrontDirection="0,1,0" />
+      <dicomDice:DiceVisual3D x:Name="Dice" SideLength="10" Chamfer="0.1" Fill="White">
+        <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="0" Foreground="DarkGreen" MajorLabel="A"
                               FontFamily="Times New Roman" MinorLabel="-Y" Caption="BACKWARD" />
-      <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="180" Foreground="DarkGreen" MajorLabel="P"
+        <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="180" Foreground="DarkGreen" MajorLabel="P"
                               FontFamily="Times New Roman" MinorLabel="+Y" Caption="FORWARD" />
-      <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="-90" Foreground="DarkRed" MajorLabel="R"
+        <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="-90" Foreground="DarkRed" MajorLabel="R"
                               FontFamily="Times New Roman" MinorLabel="-X" Caption="LEFT" />
-      <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="+90" Foreground="DarkRed" MajorLabel="L"
+        <dicomDice:DiceLabels3D RotationAxis="0,0,1" RotationAngle="+90" Foreground="DarkRed" MajorLabel="L"
                               FontFamily="Times New Roman" MinorLabel="+X" Caption="RIGHT" />
-      <dicomDice:DiceLabels3D RotationAxis="1,0,0" RotationAngle="-90" Foreground="DarkBlue" MajorLabel="S"
+        <dicomDice:DiceLabels3D RotationAxis="1,0,0" RotationAngle="-90" Foreground="DarkBlue" MajorLabel="S"
                               FontFamily="Times New Roman" MinorLabel="+Z" Caption="UP" />
-      <dicomDice:DiceLabels3D RotationAxis="1,0,0" RotationAngle="+90" Foreground="DarkBlue" MajorLabel="I"
+        <dicomDice:DiceLabels3D RotationAxis="1,0,0" RotationAngle="+90" Foreground="DarkBlue" MajorLabel="I"
                               FontFamily="Times New Roman" MinorLabel="-Z" Caption="DOWN" />
-    </dicomDice:DiceVisual3D>
-    <h:RotateManipulator Transform="{Binding Transform, ElementName=Dice}"
+      </dicomDice:DiceVisual3D>
+      <h:RotateManipulator Transform="{Binding Transform, ElementName=Dice}"
                          TargetTransform="{Binding Transform, ElementName=Dice}"
                          Diameter="14" InnerDiameter="13" Color="#10FF0000" Axis="1,0,0" />
-    <h:RotateManipulator Transform="{Binding Transform, ElementName=Dice}"
+      <h:RotateManipulator Transform="{Binding Transform, ElementName=Dice}"
                          TargetTransform="{Binding Transform, ElementName=Dice}"
                          Diameter="15" InnerDiameter="14" Color="#1000FF00" Axis="0,1,0" />
-    <h:RotateManipulator Transform="{Binding Transform, ElementName=Dice}"
+      <h:RotateManipulator Transform="{Binding Transform, ElementName=Dice}"
                          TargetTransform="{Binding Transform, ElementName=Dice}"
                          Diameter="16" InnerDiameter="15" Color="#100000FF" Axis="0,0,1" />
-    <h:RotateManipulator TargetTransform="{Binding Transform, ElementName=Dice}"
+      <h:RotateManipulator TargetTransform="{Binding Transform, ElementName=Dice}"
                          Diameter="17" InnerDiameter="16" Color="#10FF8000" Axis="1,0,0" />
-    <h:RotateManipulator TargetTransform="{Binding Transform, ElementName=Dice}"
+      <h:RotateManipulator TargetTransform="{Binding Transform, ElementName=Dice}"
                          Diameter="18" InnerDiameter="17" Color="#1000FF80" Axis="0,1,0" />
-    <h:RotateManipulator TargetTransform="{Binding Transform, ElementName=Dice}"
+      <h:RotateManipulator TargetTransform="{Binding Transform, ElementName=Dice}"
                          Diameter="19" InnerDiameter="18" Color="#100080FF" Axis="0,0,1" />
-  </h:HelixViewport3D>
+    </h:HelixViewport3D>
+    <Button Grid.Column="1" Grid.Row="0" Width="36" Height="36" Opacity="0.125" Margin="4"
+            Click="PopContextMenu">
+      <Button.ContextMenu>
+        <ContextMenu>
+          <MenuItem Command="{StaticResource ResetCamera}" />
+          <MenuItem Command="{StaticResource ResetCube}" />
+        </ContextMenu>
+      </Button.ContextMenu>
+    </Button>
+  </Grid>
 </Window>
